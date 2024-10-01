@@ -1,3 +1,4 @@
+require('dotenv').config(); // Carregar variáveis de ambiente
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -26,5 +27,4 @@ app.use('/api/games', gamesRoutes);
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
-    console.log('Iniciando o servidor...');
 });

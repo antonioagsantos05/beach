@@ -1,4 +1,3 @@
-
 const sql = require('mssql');
 
 const config = {
@@ -26,16 +25,15 @@ async function connectDB() {
 connectDB();
 
 // Exportando a função de query
-// Exportando a função de query
 module.exports = {
-    query: async (sqlQuery, params) => {
+    query: async (sqlQuery, params = {}) => {
         console.log('Executando query:', sqlQuery, 'com parâmetros:', params);
         try {
             const request = new sql.Request();
 
             // Validando e adicionando os parâmetros à requisição
             for (const key in params) {
-                if (typeof params[key] === 'undefined' || params[key] === null) {
+                if (params[key] === undefined || params[key] === null) {
                     console.warn(`Parâmetro ${key} não pode ser nulo ou indefinido`);
                     continue; // Ignora parâmetros inválidos
                 }
@@ -55,7 +53,7 @@ module.exports = {
 
             const result = await request.query(sqlQuery);
             console.log('Resultado da query:', result);
-            return result;
+            return result.recordset; // Retorna apenas o recordset
         } catch (err) {
             console.error('Erro ao executar a consulta:', err);
             throw err; // Re-lança o erro para que possa ser tratado onde a função é chamada
